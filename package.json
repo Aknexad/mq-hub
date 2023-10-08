@@ -1,0 +1,30 @@
+{
+  "name": "mq-hub",
+  "version": "1.0.0",
+  "description": "RabbitMq",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aknexad/mq-hub.git"
+  },
+  "keywords": [
+    "rabbitmq",
+    "amqp"
+  ],
+  "author": "Aknexad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aknexad/mq-hub/issues"
+  },
+  "homepage": "https://github.com/Aknexad/mq-hub#readme",
+  "devDependencies": {
+    "@types/amqp": "^0.2.6",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "amqp": "^0.2.7"
+  }
+}
