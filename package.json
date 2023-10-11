@@ -21,10 +21,14 @@
   },
   "homepage": "https://github.com/Aknexad/mq-hub#readme",
   "devDependencies": {
-    "@types/amqp": "^0.2.6",
+    "@types/amqplib": "^0.10.2",
+    "@types/node": "^20.8.3",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "amqp": "^0.2.7"
+    "amqplib": "^0.10.3"
   }
 }
