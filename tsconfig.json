@@ -13,10 +13,15 @@
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "useUnknownInCatchVariables": false,
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node16"
-  }
+    "moduleResolution": "node16",
+    "moduleDetection": "force",
+
+    //
+    "declarationMap": true
+  },
+  "exclude": ["test", "jest.config.js", "./lib"]
 }

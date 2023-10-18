@@ -1,6 +1,6 @@
 import amqp, { Connection } from 'amqplib';
 
-import { IAmqpConnection, CrateChannelInput } from '../types';
+import { IAmqpConnection, CreateChannelInput } from '../types';
 
 class AmqpConnection implements IAmqpConnection {
   constructor(
@@ -11,7 +11,7 @@ class AmqpConnection implements IAmqpConnection {
     this.amqpUrl = amqpUrl;
   }
 
-  private async GetChannel() {
+  public async GetChannel() {
     if (!this.amqplibConnection) {
       this.amqplibConnection = await amqp.connect(this.amqpUrl);
     }
@@ -19,7 +19,7 @@ class AmqpConnection implements IAmqpConnection {
     return await this.amqplibConnection.createChannel();
   }
 
-  public async CrateChannel(data: CrateChannelInput) {
+  public async CreateChannel(data: CreateChannelInput) {
     try {
       const { exchangeName, exchangeType, option } = data;
 

@@ -1,6 +1,6 @@
 import { Channel } from 'amqplib';
 
-export type CrateChannelInput = {
+export type CreateChannelInput = {
   exchangeName: string;
   exchangeType: string;
   option: {
@@ -9,5 +9,5 @@ export type CrateChannelInput = {
 };
 
 export interface IAmqpConnection {
-  CrateChannel(input: CrateChannelInput): Promise<Channel>;
+  CreateChannel(input: CreateChannelInput): Promise<Channel>;
 }
