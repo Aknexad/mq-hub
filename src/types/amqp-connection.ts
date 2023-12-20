@@ -1,13 +1,6 @@
-import { Channel } from 'amqplib';
-
-export type CreateChannelInput = {
-  exchangeName: string;
-  exchangeType: string;
-  option: {
-    durable: boolean;
-  };
-};
+import { Channel, Connection } from 'amqplib';
 
 export interface IAmqpConnection {
-  CreateChannel(input: CreateChannelInput): Promise<Channel>;
+  AmqpConnections(rabbitMqUrl: string): Promise<Connection>;
+  CreateChannel(AmqpConnection: Connection): Promise<Channel>;
 }

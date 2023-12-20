@@ -1,17 +1,19 @@
-import { Channel } from 'amqplib';
+import { Channel, Options } from 'amqplib';
+import { ExchangeOptions } from '../types';
 
 export type PublishInput = {
   channel: Channel;
-  exchange: string;
+  exchangeName: string;
   bindingKey: string;
   massage: any;
+  options?: Options.Publish;
 };
 
-export type SubscribeInput = {
+export type SubscribeInput<T = any> = {
   channel: Channel;
-  exchange: string;
-  bindingKey: string;
-  subQName: string;
+  quemName: string;
+  logic: T;
+  options?: Options.Consume;
 };
 
 export interface IPublisherConsumer {

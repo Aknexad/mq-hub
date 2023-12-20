@@ -3,33 +3,35 @@ import amqp from 'amqplib';
 import { IPublisherConsumer, PublishInput, SubscribeInput } from '../types';
 
 class PublishSubscribe implements IPublisherConsumer {
-  constructor() {}
+  public async PublishMassage(data: PublishInput): Promise<void> {
+    const { channel, exchangeName, bindingKey, massage, options } = data;
 
-  async PublishMassage(data: PublishInput) {
-    const { channel, exchange, bindingKey, massage } = data;
+    const payload = Buffer.from(JSON.stringify(massage));
 
-    try {
-      channel.publish(
-        exchange,
-        bindingKey,
-        Buffer.from(JSON.stringify(massage))
-      );
-    } catch (error) {
-      throw new Error(error);
-    }
+    channel.publish(exchangeName, bindingKey, payload, options);
+
+    return;
   }
 
-  async SubscribeMassage(data: SubscribeInput) {
-    const { channel, exchange, bindingKey, subQName } = data;
-    try {
-      const queue = await channel.assertQueue(subQName);
+  public async SubscribeMassage(data: SubscribeInput): Promise<void> {
+    const { channel, quemName, logic } = data;
 
-      channel.bindQueue(queue.queue, exchange, bindingKey);
+    channel.consume(quemName, async (data: amqp.ConsumeMessage | null) => {
+      if (!data) {
+        return;
+      }
+      const payload = JSON.parse(data.content.toString());
 
-      channel.consume(queue.queue, data => {});
-    } catch (error) {
-      throw new Error(error);
-    }
+      const prosesData = await logic(payload);
+
+      if (!prosesData) {
+        return;
+      }
+
+      channel.ack(data);
+    });
+
+    return;
   }
 }
 

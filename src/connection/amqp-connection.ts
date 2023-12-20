@@ -1,31 +1,38 @@
 import amqp, { Connection } from 'amqplib';
 
-import { IAmqpConnection, CreateChannelInput } from '../types';
+import { IAmqpConnection } from '../types';
 
 class AmqpConnection implements IAmqpConnection {
-  constructor(
-    private amqplibConnection: null | Connection = null,
-    private amqpUrl: string
-  ) {
-    this.amqplibConnection = amqplibConnection;
-    this.amqpUrl = amqpUrl;
-  }
-
-  public async GetChannel() {
-    if (!this.amqplibConnection) {
-      this.amqplibConnection = await amqp.connect(this.amqpUrl);
-    }
-
-    return await this.amqplibConnection.createChannel();
-  }
-
-  public async CreateChannel(data: CreateChannelInput) {
+  private connectToRabbitMQ: amqp.Connection | null = null;
+  private channel: amqp.Channel | null = null;
+  public async AmqpConnections(rabbitMqUrl: string): Promise<amqp.Connection> {
     try {
-      const { exchangeName, exchangeType, option } = data;
+      this.connectToRabbitMQ = await amqp.connect(rabbitMqUrl);
 
-      const channel = await this.GetChannel();
-      await channel.assertExchange(exchangeName, exchangeType, option);
-      return channel;
+      return this.connectToRabbitMQ;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async CreateChannel(connection: amqp.Connection): Promise<amqp.Channel> {
+    try {
+      this.channel = await connection.createChannel();
+      return this.channel;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async CloseConnection() {
+    try {
+      if (this.connectToRabbitMQ) {
+        await this.connectToRabbitMQ.close();
+      }
+
+      if (this.channel) {
+        await this.channel.close();
+      }
     } catch (error) {
       throw error;
     }

@@ -1,7 +1,8 @@
 import { AmqpConnection } from './connection';
-import { PublishSubscribe } from './messaging-method';
-import { CreateChannelInput, PublishInput, SubscribeInput } from './types';
+import { PublishSubscribe, ExchangeQueue } from './messaging-method';
 
-export { AmqpConnection, PublishSubscribe };
+import { PublishInput, SubscribeInput, ExchangeOptions } from './types';
 
-export type { CreateChannelInput, PublishInput, SubscribeInput };
+export { AmqpConnection, PublishSubscribe, ExchangeQueue };
+
+export type { PublishInput, SubscribeInput, ExchangeOptions };
