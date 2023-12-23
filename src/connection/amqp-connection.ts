@@ -15,9 +15,13 @@ class AmqpConnection implements IAmqpConnection {
     }
   }
 
-  public async CreateChannel(connection: amqp.Connection): Promise<amqp.Channel> {
+  public async CreateChannel(
+    connection: amqp.Connection,
+    prefetchCount: number = 1
+  ): Promise<amqp.Channel> {
     try {
       this.channel = await connection.createChannel();
+      this.channel.prefetch(prefetchCount);
       return this.channel;
     } catch (error) {
       throw error;
@@ -29,7 +33,13 @@ class AmqpConnection implements IAmqpConnection {
       if (this.connectToRabbitMQ) {
         await this.connectToRabbitMQ.close();
       }
+    } catch (error) {
+      throw error;
+    }
+  }
 
+  public async CLoseChannel() {
+    try {
       if (this.channel) {
         await this.channel.close();
       }
