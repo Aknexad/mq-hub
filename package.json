@@ -1,6 +1,6 @@
 {
   "name": "@Aknexad/mq-hub",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "RabbitMq",
   "main": "lib/index.js",
   "scripts": {
