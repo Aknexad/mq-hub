@@ -1,8 +1,6 @@
 import amqp from 'amqplib';
 
 import { IPublisherConsumer, PublishInput, SubscribeInput } from '../types';
-import { channel } from 'diagnostics_channel';
-import { error } from 'console';
 
 class PublishSubscribe implements IPublisherConsumer {
   public async PublishMassage(data: PublishInput): Promise<void> {
@@ -35,6 +33,7 @@ class PublishSubscribe implements IPublisherConsumer {
       channel.consume(quemName, async (data: amqp.Message | null) => {
         try {
           if (!data) {
+            console.log(`data is null`);
             return;
           }
           const payload = JSON.parse(data.content.toString());

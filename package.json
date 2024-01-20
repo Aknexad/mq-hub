@@ -1,6 +1,6 @@
 {
   "name": "@Aknexad/mq-hub",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "RabbitMq",
   "main": "lib/index.js",
   "scripts": {
@@ -25,6 +25,7 @@
     "@types/amqplib": "^0.10.2",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.4",
+    "@types/uuid": "^9.0.7",
     "jest": "^29.7.0",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
@@ -33,6 +34,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "amqplib": "^0.10.3"
+    "amqplib": "^0.10.3",
+    "uuid": "^9.0.1"
   }
 }

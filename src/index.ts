@@ -1,8 +1,20 @@
 import { AmqpConnection } from './connection';
-import { PublishSubscribe, ExchangeQueue } from './messaging-method';
+import { PublishSubscribe, ExchangeQueue, Rpc } from './messaging-method';
 
-import { PublishInput, SubscribeInput, ExchangeOptions } from './types';
+import {
+  PublishInput,
+  SubscribeInput,
+  ExchangeOptions,
+  RocRequestInput,
+  RpcObserverInput,
+} from './types';
 
-export { AmqpConnection, PublishSubscribe, ExchangeQueue };
+export { AmqpConnection, PublishSubscribe, ExchangeQueue, Rpc };
 
-export type { PublishInput, SubscribeInput, ExchangeOptions };
+export type {
+  PublishInput,
+  SubscribeInput,
+  ExchangeOptions,
+  RocRequestInput,
+  RpcObserverInput,
+};

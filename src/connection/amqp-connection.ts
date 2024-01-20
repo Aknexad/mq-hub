@@ -73,64 +73,64 @@ class AmqpConnection implements IAmqpConnection {
     }
   }
 
-  public async ReconnectToRabbitMqOnErrors(rabbitMqUrl: string) {
-    try {
-      const connection = await this.AmqpConnections(rabbitMqUrl);
+  // public async ReconnectToRabbitMqOnErrors(rabbitMqUrl: string) {
+  //   try {
+  //     const connection = await this.AmqpConnections(rabbitMqUrl);
 
-      // Event handler for when the connection is closed
-      connection.on('close', err => {
-        if (err) {
-          console.error(`Connection closed with error: ${err}`);
-        }
-      });
+  //     // Event handler for when the connection is closed
+  //     connection.on('close', err => {
+  //       if (err) {
+  //         console.error(`Connection closed with error: ${err}`);
+  //       }
+  //     });
 
-      // Attempt to reconnect after a delay (e.g., 5 seconds)
-      setTimeout(() => {
-        console.log('Attempting to reconnect to RabbitMQ...');
-        this.ReconnectToRabbitMqOnErrors(rabbitMqUrl);
-      }, 5000);
+  //     // Attempt to reconnect after a delay (e.g., 5 seconds)
+  //     setTimeout(() => {
+  //       console.log('Attempting to reconnect to RabbitMQ...');
+  //       this.ReconnectToRabbitMqOnErrors(rabbitMqUrl);
+  //     }, 5000);
 
-      // Event handler for when an error occurs
-      connection.on('error', err => {
-        console.error(`Connection error: ${err}`);
-      });
+  //     // Event handler for when an error occurs
+  //     connection.on('error', err => {
+  //       console.error(`Connection error: ${err}`);
+  //     });
 
-      // Do further setup, like creating a channel
-      const channel = await this.CreateChannel(connection);
-      return channel;
+  //     // Do further setup, like creating a channel
+  //     const channel = await this.CreateChannel(connection);
+  //     return channel;
 
-      console.log('Connected to RabbitMQ');
-    } catch (error) {
-      console.error(`Failed to connect to RabbitMQ: ${error}`);
-      // Retry the connection after a delay (e.g., 5 seconds)
-      setTimeout(() => {
-        console.log('Retrying RabbitMQ connection...');
-        this.ReconnectToRabbitMqOnErrors(rabbitMqUrl);
-      }, 5000);
-    }
-  }
+  //     console.log('Connected to RabbitMQ');
+  //   } catch (error) {
+  //     console.error(`Failed to connect to RabbitMQ: ${error}`);
+  //     // Retry the connection after a delay (e.g., 5 seconds)
+  //     setTimeout(() => {
+  //       console.log('Retrying RabbitMQ connection...');
+  //       this.ReconnectToRabbitMqOnErrors(rabbitMqUrl);
+  //     }, 5000);
+  //   }
+  // }
 
-  public async RecreateChannel(connection: amqp.Connection) {
-    try {
-      let retries = 0;
-      const maxRetries = 5; // Maximum number of retries
-      while (retries < maxRetries) {
-        try {
-          this.channel = await this.CreateChannel(connection);
+  // public async RecreateChannel(connection: amqp.Connection) {
+  //   try {
+  //     let retries = 0;
+  //     const maxRetries = 5; // Maximum number of retries
+  //     while (retries < maxRetries) {
+  //       try {
+  //         this.channel = await this.CreateChannel(connection);
 
-          console.log('Connected to RabbitMQ successfully!');
+  //         console.log('Connected to RabbitMQ successfully!');
 
-          break; // Break out of the loop if the connection is successful
-        } catch (error) {
-          console.error(`error => ${error}`);
-          retries++;
-        }
-      }
-    } catch (error) {
-      console.log(`creating channel error => ${error}`);
-      throw error;
-    }
-  }
+  //         break; // Break out of the loop if the connection is successful
+  //       } catch (error) {
+  //         console.error(`error => ${error}`);
+  //         retries++;
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(`creating channel error => ${error}`);
+  //     throw error;
+  //   }
+  // }
 }
 
 export { AmqpConnection };
