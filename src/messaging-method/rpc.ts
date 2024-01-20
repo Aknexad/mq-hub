@@ -14,6 +14,7 @@ class Rpc implements IRpc {
 
       const prosesDate = async (msg: ConsumeMessage | null) => {
         if (!msg?.content) return;
+
         console.log('request reive');
 
         const payload = JSON.parse(msg.content.toString());
