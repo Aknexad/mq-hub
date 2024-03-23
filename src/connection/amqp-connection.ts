@@ -9,11 +9,6 @@ class AmqpConnection implements IAmqpConnection {
     try {
       this.connectToRabbitMQ = await amqp.connect(rabbitMqUrl);
 
-      this.connectToRabbitMQ.on('error', async err => {
-        console.log('🚀 ~ AmqpConnection ~ AmqpConnections ~ err:', err);
-        return await this.ReconnectionToRabbitMq(rabbitMqUrl);
-      });
-
       return this.connectToRabbitMQ;
     } catch (error) {
       console.log('error in connecting to rabbitmq => ' + error.message);
