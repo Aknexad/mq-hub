@@ -58,7 +58,11 @@ class Rpc implements IRpc {
     uuid: string
   ) {
     try {
-      const q = await channel.assertQueue('', { exclusive: true });
+      const q = await channel.assertQueue('', {
+        durable: false,
+        exclusive: true,
+        autoDelete: true,
+      });
 
       channel.sendToQueue(rpcQueueName, Buffer.from(JSON.stringify(requestPayload)), {
         replyTo: q.queue,
@@ -68,14 +72,18 @@ class Rpc implements IRpc {
       return new Promise((resolve, reject) => {
         // timeout n
         const timeout = setTimeout(() => {
-          channel.close();
+          // channel.close();
           resolve('API could not fullfil the request!');
         }, 8000);
         channel.consume(
           q.queue,
-          (msg: any) => {
+          (msg: ConsumeMessage | null) => {
+            if (!msg) {
+              return reject('data Not found!');
+            }
             if (msg.properties.correlationId == uuid) {
               resolve(JSON.parse(msg.content.toString()));
+              channel.cancel(msg.fields.consumerTag);
               clearTimeout(timeout);
             } else {
               reject('data Not found!');

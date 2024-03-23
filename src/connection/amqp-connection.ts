@@ -9,6 +9,11 @@ class AmqpConnection implements IAmqpConnection {
     try {
       this.connectToRabbitMQ = await amqp.connect(rabbitMqUrl);
 
+      this.connectToRabbitMQ.on('error', async err => {
+        console.log('🚀 ~ AmqpConnection ~ AmqpConnections ~ err:', err);
+        return await this.ReconnectionToRabbitMq(rabbitMqUrl);
+      });
+
       return this.connectToRabbitMQ;
     } catch (error) {
       console.log('error in connecting to rabbitmq => ' + error.message);
@@ -131,6 +136,21 @@ class AmqpConnection implements IAmqpConnection {
   //     throw error;
   //   }
   // }
+
+  public async ConnectionErrorHandler(connection: amqp.Connection, rabbitMqUrl: string) {
+    let channel;
+
+    connection.on('error', async err => {
+      console.log('🚀 ~ AmqpConnection ~ ConnectionErrorHandler ~ err:', err);
+
+      return await this.AmqpConnections(rabbitMqUrl);
+    });
+
+    return {
+      connection,
+      channel,
+    };
+  }
 }
 
 export { AmqpConnection };
