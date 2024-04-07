@@ -1,5 +1,4 @@
 import { Channel, Options } from 'amqplib';
-import { ExchangeOptions } from '../types';
 
 export type PublishInput = {
   channel: Channel;

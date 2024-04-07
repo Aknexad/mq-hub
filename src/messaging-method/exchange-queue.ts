@@ -1,4 +1,4 @@
-import { Channel, Replies } from 'amqplib';
+import { Channel, Options, Replies } from 'amqplib';
 import { IExchangeQueue, DeclareExchangeInput } from '../types';
 
 class ExchangeQueue implements IExchangeQueue {
@@ -18,9 +18,10 @@ class ExchangeQueue implements IExchangeQueue {
 
   public async AssertQueue(
     channel: Channel,
-    quemName: string
+    quemName: string,
+    options?: Options.AssertQueue
   ): Promise<Replies.AssertQueue> {
-    const assertQueue = await channel.assertQueue(quemName);
+    const assertQueue = await channel.assertQueue(quemName, options);
     return assertQueue;
   }
 
@@ -28,9 +29,10 @@ class ExchangeQueue implements IExchangeQueue {
     channel: Channel,
     assertQueue: Replies.AssertQueue,
     exchangeName: string,
-    bindingKey: string
+    bindingKey: string,
+    args?: any
   ): Promise<void> {
-    await channel.bindQueue(assertQueue.queue, exchangeName, bindingKey);
+    await channel.bindQueue(assertQueue.queue, exchangeName, bindingKey, args);
 
     return;
   }
