@@ -72,7 +72,7 @@ class Rpc implements IRpc {
       return new Promise((resolve, reject) => {
         // timeout n
         const timeout = setTimeout(() => {
-          // channel.close();
+          // channel.close(); // close channel
           resolve('API could not fullfil the request!');
         }, 8000);
         channel.consume(
